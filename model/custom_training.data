@@ -1,0 +1,5 @@
+classes=4
+train = ./model/train.txt
+valid = ./model/val.txt
+names = ./model/classes.names
+backup = ./model/
