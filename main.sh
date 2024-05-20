@@ -19,3 +19,6 @@ python ./split_train_val.py
 darknet detector train ./model/custom_training.data ./model/yolov4-tiny.cfg ./model/yolov4-tiny.conv.29
 # 模型验证
 python ./infer.py
+# 应用场景开发与验证
+sudo python ./control.py
+sudo python ./trtail.py
