@@ -15,7 +15,7 @@ i = 0
 while True:
     ret, frame = cap.read()
     if ret:
-        (H, W) = frame.shape[:2]
+        H, W = frame.shape
         blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416), swapRB=True, crop=False)
         net.setInput(blob)
         output = net.forward(layer)
@@ -28,7 +28,7 @@ while True:
             classID = np.argmax(scores)
             confidence = scores[classID]
             box = detection[0:4] * np.array([W, H, W, H])
-            (centerX, centerY, width, height) = box.astype("int")
+            centerX, centerY, width, height = box.astype("int")
             x = int(centerX - (width / 2))
             y = int(centerY - (height / 2))
             boxes.append([x, y, int(width), int(height)])
@@ -37,8 +37,8 @@ while True:
         idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.3)
         if len(idxs) > 0:
             for i in idxs.flatten():
-                (x, y) = (boxes[i][0], boxes[i][1])
-                (w, h) = (boxes[i][2], boxes[i][3])
+                x, y = boxes[i][0], boxes[i][1]
+                w, h = boxes[i][2], boxes[i][3]
                 label = LABELS[classIDs[i]]
                 text = "{}: {:.4f}".format(label, confidences[i])
                 if label == "gum":

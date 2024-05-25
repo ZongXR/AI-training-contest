@@ -3,7 +3,8 @@ import os
 import cv2
 
 
-os.mkdir("./collect/")
+if not os.path.exists("./collect/"):
+    os.mkdir("./collect/")
 cap = cv2.VideoCapture(0)
 i = 0
 while True:

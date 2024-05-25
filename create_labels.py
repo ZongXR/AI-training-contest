@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import os
 
 
-classes = ['cola', 'sprite', 'fanta', 'gum']
+classes = open("./model/classes.names").read().strip().split("\n")
 for file in os.listdir('./VOC/Annotations'):
     tree = ET.parse(f"./VOC/Annotations/{file}")
     root = tree.getroot()

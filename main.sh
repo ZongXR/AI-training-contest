@@ -21,4 +21,4 @@ darknet detector train ./model/custom_training.data ./model/yolov4-tiny.cfg ./mo
 python ./infer.py
 # 应用场景开发与验证
 sudo python ./control.py
-sudo python ./trtail.py
+sudo python ./retail.py
