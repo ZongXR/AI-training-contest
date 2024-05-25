@@ -16,6 +16,14 @@ cp -rf ./images/*.jpg ./VOC/JPEGImages/
 mkdir -p ./VOC/labels
 python ./create_labels.py
 python ./split_train_val.py
+darknet_path=$(dirname $(which darknet))
+cd ${darknet_path}
+if [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]];then
+  echo "recompile darknet..."
+  sed -i "4c OPENCV=1" Makefile
+  make
+fi
+cd -
 darknet detector train ./model/custom_training.data ./model/yolov4-tiny.cfg ./model/yolov4-tiny.conv.29
 # 模型验证
 python ./infer.py

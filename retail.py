@@ -15,7 +15,7 @@ i = 0
 while True:
     ret, frame = cap.read()
     if ret:
-        H, W = frame.shape
+        H, W, _ = frame.shape
         blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416), swapRB=True, crop=False)
         net.setInput(blob)
         output = net.forward(layer)
