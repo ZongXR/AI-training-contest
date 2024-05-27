@@ -11,7 +11,12 @@ python ./gather.py
 mkdir -p ./images
 cp -rf ./conversion/*.jpg ./images/
 cp -rf ./collect/*.jpg ./images/
-# TODO 图像标注
+# 图像标注
+mkdir -p ./Annotations
+mkdir -p ./VOC
+labelimg ./images/ ./model/classes.names
+cp -rf ./Annotations ./VOC/
+cp -rf ./images ./VOC/JPEGImages
 # TODO 标注结果解析
 # TODO 模型调参及模型训练
 # TODO 模型验证
