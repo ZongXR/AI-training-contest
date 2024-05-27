@@ -6,7 +6,11 @@ mkdir -p ./conversion
 python ./conversion.py
 mkdir -p ./concatenation
 python ./concatenation.py
-# TODO 图像采集
+# 图像采集
+python ./gather.py
+mkdir -p ./images
+cp -rf ./conversion/*.jpg ./images/
+cp -rf ./collect/*.jpg ./images/
 # TODO 图像标注
 # TODO 标注结果解析
 # TODO 模型调参及模型训练
