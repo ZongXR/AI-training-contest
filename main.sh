@@ -23,7 +23,19 @@ python ./xmlanalysis.py
 # 标注结果裁剪
 mkdir -p ./crop
 python ./xmlcrop.py
-# TODO 模型调参及模型训练
+# 模型调参及模型训练
+mkdir -p ./VOC/labels
+python ./split_train_val.py
+python ./create_labels.py
+darknet_path=$(dirname $(which darknet))
+cd ${darknet_path}
+if [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]];then
+  echo "recompile darknet..."
+  sed -i "4c OPENCV=1" Makefile
+  make
+fi
+cd -
+darknet detector train ./model/custom_training.data ./model/yolov7-tiny.cfg ./model/yolov7-tiny.conv.87 > training.log
 # TODO 模型验证
 # TODO 应用场景开发
 # TODO 应用场景验证
