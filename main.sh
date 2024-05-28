@@ -36,6 +36,7 @@ if [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]];then
 fi
 cd -
 darknet detector train ./model/custom_training.data ./model/yolov7-tiny.cfg ./model/yolov7-tiny.conv.87 > training.log
-# TODO 模型验证
+# 模型验证
+python ./infer.py
 # TODO 应用场景开发
 # TODO 应用场景验证
