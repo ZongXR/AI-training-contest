@@ -38,5 +38,7 @@ cd -
 darknet detector train ./model/custom_training.data ./model/yolov7-tiny.cfg ./model/yolov7-tiny.conv.87 > training.log
 # 模型验证
 python ./infer.py
-# TODO 应用场景开发
+# 应用场景开发
+sudo python ./control.py
+sudo python ./system.py
 # TODO 应用场景验证

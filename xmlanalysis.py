@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
 import os
-import cv2
+from PIL import Image, ImageDraw, ImageFont
 
 
 classes = open("./model/classes.names").read().strip().split("\n")
@@ -9,7 +9,8 @@ for file in os.listdir('./VOC/Annotations'):
     tree = ET.parse(f"./VOC/Annotations/{file}")
     root = tree.getroot()
 
-    frame = cv2.imread(f"./VOC/JPEGImages/{file.split('.')[0] + '.jpg'}", cv2.IMREAD_COLOR)
+    image = Image.open(f"./VOC/JPEGImages/{file.split('.')[0] + '.jpg'}")
+    draw = ImageDraw.Draw(image)
     for obj in root.iter('object'):
         cls = obj.find('name').text
 
@@ -19,6 +20,6 @@ for file in os.listdir('./VOC/Annotations'):
         xmax = int(xmlbox.find('xmax').text)
         ymax = int(xmlbox.find('ymax').text)
 
-        cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), (0, 0, 255), 1, cv2.LINE_AA)
-        cv2.putText(frame, cls, (xmin, ymin), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
-    cv2.imwrite(f"./analysisImage/{file.split('.')[0] + '.jpg'}", frame)
+        draw.rectangle([(xmin, ymin), (xmax, ymax)], outline=(255, 0, 0), width=1)
+        draw.text((xmin, ymin), cls, font=ImageFont.truetype('arial.ttf', 36), fill=(0, 0, 255))
+    image.save(f"./analysisImage/{file.split('.')[0] + '.jpg'}")
