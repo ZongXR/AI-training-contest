@@ -41,4 +41,5 @@ python ./infer.py
 # 应用场景开发
 sudo python ./control.py
 sudo python ./system.py
-# TODO 应用场景验证
+# 应用场景验证
+sudo python ./validate.py
