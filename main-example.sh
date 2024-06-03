@@ -15,7 +15,7 @@ cp -rf ./images/*.jpg ./VOC/JPEGImages/
 # 模型调参及模型训练
 mkdir -p ./VOC/labels
 python ./create_labels.py
-python ./split_train_val.py
+python ./get_train_val.py
 darknet_path=$(dirname $(which darknet))
 cd ${darknet_path}
 if [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]];then

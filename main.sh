@@ -25,7 +25,7 @@ mkdir -p ./crop
 python ./xmlcrop.py
 # 模型调参及模型训练
 mkdir -p ./VOC/labels
-python ./split_train_val.py
+python ./get_train_val.py
 python ./create_labels.py
 darknet_path=$(dirname $(which darknet))
 cd ${darknet_path}

@@ -22,6 +22,6 @@ for file in os.listdir('./VOC/Annotations'):
         xmax = int(xmlbox.find('xmax').text)
         ymax = int(xmlbox.find('ymax').text)
 
-        cropped = frame[xmin:xmax + 1, ymin:ymax + 1].copy()
+        cropped = frame[ymin:ymax + 1, xmin:xmax + 1].copy()
         cv2.imwrite(f"./crop/{cls}/{nums[cls]}.jpg", cropped)
         nums[cls] = nums[cls] + 1
