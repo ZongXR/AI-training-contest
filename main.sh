@@ -29,9 +29,12 @@ python ./get_train_val.py
 python ./create_labels.py
 darknet_path=$(dirname $(which darknet))
 cd ${darknet_path}
-if [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]];then
+if [[ "GPU=1" != "$(sed -n '1,1p' Makefile)" ]] || [[ "CUDNN=1" != "$(sed -n '2,1p' Makefile)" ]] || [[ "OPENCV=1" != "$(sed -n '4,1p' Makefile)" ]] || [[ "LIBSO=1" != "$(sed -n '7,1p' Makefile)" ]];then
   echo "recompile darknet..."
+  sed -i "1c GPU=1" Makefile
+  sed -i "2c CUDNN=1" Makefile
   sed -i "4c OPENCV=1" Makefile
+  sed -i "7c LIBSO=1" Makefile
   make
 fi
 cd -
