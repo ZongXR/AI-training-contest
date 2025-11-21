@@ -74,26 +74,24 @@ def detect_thread():
     """
     prev_boxes = None
     start_time = None
-    while not frame_queue.empty():
+    while True:
         frame = frame_queue.get()
         current_boxes, confidences, class_ids = detect_objects(frame)
-        put_boxes(frame, current_boxes, confidences, class_ids)
-        cv2.imshow("capture", frame)
-
-        if prev_boxes is None:
-            prev_boxes = current_boxes
-        else:
-            if start_time is None:
-                start_time = time.time()
+        if class_ids:
+            put_boxes(frame, current_boxes, confidences, class_ids)
+            if prev_boxes is None:
+                prev_boxes = current_boxes
             else:
-                if prev_boxes == current_boxes:
-                    if time.time() - start_time >= 5:
-                        detect_results.put((current_boxes, confidences, class_ids))
-                        if class_ids:
-                            cv2.imwrite("./result.jpg", frame)
-                        return
-                else:
+                if start_time is None:
                     start_time = time.time()
+                else:
+                    if prev_boxes == current_boxes:
+                        if time.time() - start_time >= 5:
+                            detect_results.put((current_boxes, confidences, class_ids))
+                            cv2.imwrite("./result.jpg", frame)
+                            return
+                    else:
+                        start_time = time.time()
 
 
 def set_nums(item_nums: dict):
@@ -114,15 +112,16 @@ nums = {
     "fanta": 99,
     "gum": 99
 }
-thread = Thread(target=detect_thread)
+thread = Thread(target=detect_thread, daemon=True)
+thread.start()
+change_screen_command("page 7")
 while True:
-    change_screen_command("page 7")
     set_nums(nums)
     ret, img = cap.read()
     if ret:
+        cv2.imshow("capture", img)
         frame_queue.put(img)
-        thread.start()
-        thread.join()
+    if not detect_results.empty():
         boxes, confidences, class_ids = detect_results.get()
 
         num_cola = class_ids.count(0)
@@ -135,8 +134,10 @@ while True:
         if "Z1" == wait_screen("m70"):
             data, bbox, qrcode = qr.detectAndDecode(img)
             while len(data) == 0:
-                cv2.imshow("capture", img)
-                data, bbox, qrcode = qr.detectAndDecode(img)
+                ret, img = cap.read()
+                if ret:
+                    cv2.imshow("capture", img)
+                    data, bbox, qrcode = qr.detectAndDecode(img)
             for box in bbox:
                 cv2.line(img, tuple(box[0].astype(int)), tuple(box[1].astype(int)), (255, 0, 0), 2)
                 cv2.line(img, tuple(box[1].astype(int)), tuple(box[2].astype(int)), (255, 0, 0), 2)
@@ -153,3 +154,5 @@ while True:
     k = cv2.waitKey(1)
     if k == ord(" "):
         break
+cap.release()
+cv2.destroyAllWindows()
