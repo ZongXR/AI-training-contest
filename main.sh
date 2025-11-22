@@ -40,7 +40,7 @@ if [[ "GPU=1" != "$(sed -n '1,1p' Makefile)" ]] || [[ "CUDNN=1" != "$(sed -n '2,
   make
 fi
 cd -
-darknet detector train ./model/custom_training.data ./model/yolov7-tiny.cfg ./model/yolov7-tiny.conv.87 > training.log
+darknet detector train ./model/custom_training.data ./model/yolov7-tiny.cfg ./model/yolov7-tiny.conv.87 > ./model/training.log
 # 模型验证
 python ./infer.py
 # 应用场景开发
