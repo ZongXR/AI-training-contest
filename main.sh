@@ -9,12 +9,14 @@ python ./concatenation.py
 # 图像采集
 python ./gather.py
 mkdir -p ./images
-cp -rf ./conversion/*.jpg ./images/
-cp -rf ./collect/*.jpg ./images/
+cp -rf ./collect/cola/*.jpg ./images/
+cp -rf ./collect/sprite/*.jpg ./images/
+cp -rf ./collect/fanta/*.jpg ./images/
+cp -rf ./collect/gum/*.jpg ./images/
 # 图像标注
 mkdir -p ./Annotations
+labelimg ./images/ ./model/classes.names ./Annotations/
 mkdir -p ./VOC
-labelimg ./images/ ./model/classes.names
 cp -rf ./Annotations ./VOC/
 cp -rf ./images ./VOC/JPEGImages
 # 标注结果解析
